@@ -20,7 +20,8 @@ import { useIsMobile } from "@/lib/hooks/use-is-mobile";
 const COOKIE_KEY = "eva-brand-settings";
 
 const DEFAULTS = {
-  logoUrl: "https://github.com/davidoost/constants/blob/main/logos/eva-logo.png?raw=true",
+  logoUrl:
+    "https://github.com/davidoost/constants/blob/main/logos/eva-logo.png?raw=true",
   brandName: "EVA",
   accentColor: "#0485F7",
 };
@@ -49,14 +50,15 @@ function saveSettings(settings: BrandSettings) {
   document.cookie = `${COOKIE_KEY}=${encodeURIComponent(JSON.stringify(settings))}; path=/; max-age=${60 * 60 * 24 * 365}`;
 }
 
-
 export function BrandSettingsDrawer() {
   const state = useOverlayState();
   const router = useRouter();
 
   const [logoUrl, setLogoUrl] = useState(DEFAULTS.logoUrl);
   const [brandName, setBrandName] = useState(DEFAULTS.brandName);
-  const [accentColor, setAccentColor] = useState<Color | null>(parseColor(DEFAULTS.accentColor));
+  const [accentColor, setAccentColor] = useState<Color | null>(
+    parseColor(DEFAULTS.accentColor),
+  );
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -100,7 +102,7 @@ export function BrandSettingsDrawer() {
 
       <Drawer.Backdrop isOpen={state.isOpen} onOpenChange={state.setOpen}>
         <Drawer.Content placement={isMobile ? "bottom" : "right"}>
-          <Drawer.Dialog>
+          <Drawer.Dialog className={isMobile ? "max-h-[85dvh]" : ""}>
             <Drawer.CloseTrigger />
             <Drawer.Header>
               <Drawer.Heading>Brand Settings</Drawer.Heading>
