@@ -39,7 +39,7 @@ export function TemplatesGrid() {
           name="search"
           value={query}
           onChange={setQuery}
-          className={`flex-1 min-w-32`}
+          className={`flex-1 min-w-32 max-w-64`}
         >
           <SearchField.Group>
             <SearchField.SearchIcon />
