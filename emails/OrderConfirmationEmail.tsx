@@ -1,5 +1,12 @@
 import { OrderConfirmationDataModel } from "@/lib/types";
-import { Column, Heading, Hr, Row, Section, Text } from "@react-email/components";
+import {
+  Column,
+  Heading,
+  Hr,
+  Row,
+  Section,
+  Text,
+} from "@react-email/components";
 import EmailLayout from "./layout";
 import { EvaFor } from "./eva-for";
 import { EvaIf } from "./eva-if";
@@ -19,11 +26,15 @@ export default function OrderConfirmationEmail({
   logoUrl,
   brandName = "EVA",
   bodyBg,
+  surfaceBg,
 }: OrderConfirmationEmailProps) {
   const { Order, User, Data } = data;
 
   const fmt = (amount: number) =>
-    new Intl.NumberFormat("en-US", { style: "currency", currency: Order.CurrencyID }).format(amount);
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: Order.CurrencyID,
+    }).format(amount);
 
   const placementDate = Data.InvoiceData?.PlacementDateTime
     ? new Date(Data.InvoiceData.PlacementDateTime).toLocaleDateString("en-US", {
@@ -46,21 +57,29 @@ export default function OrderConfirmationEmail({
         Order confirmed
       </Heading>
       <Text className="text-sm leading-relaxed">
-        Hi {User.FirstName}, thank you for your order! We've received it and will
-        let you know once it's on its way.
+        Hi {User.FirstName}, thank you for your order! We've received it and
+        will let you know once it's on its way.
       </Text>
 
-      <Section className="bg-gray-50 rounded-lg px-4 py-3 my-4">
+      <Section
+        style={{ backgroundColor: surfaceBg ?? "#f9fafb" }}
+        className="rounded-lg px-4 py-3 my-4"
+      >
         <Row>
           <Column className="text-sm text-gray-500">Order number</Column>
           <Column className="text-sm font-semibold text-gray-900 text-right">
             #{Order.ID}
           </Column>
         </Row>
-        <EvaIf expr="Data.InvoiceData.PlacementDateTime != null" show={!!placementDate}>
+        <EvaIf
+          expr="Data.InvoiceData.PlacementDateTime != null"
+          show={!!placementDate}
+        >
           <Row className="mt-1">
             <Column className="text-sm text-gray-500">Order date</Column>
-            <Column className="text-sm text-gray-700 text-right">{placementDate}</Column>
+            <Column className="text-sm text-gray-700 text-right">
+              {placementDate}
+            </Column>
           </Row>
         </EvaIf>
       </Section>
@@ -78,7 +97,10 @@ export default function OrderConfirmationEmail({
           <Row key={line.ID} className="mb-3">
             <Column className="text-sm text-gray-800">
               {line.Description}
-              <span className="text-gray-400"> × {line.TotalQuantityToShip}</span>
+              <span className="text-gray-400">
+                {" "}
+                × {line.TotalQuantityToShip}
+              </span>
             </Column>
             <Column className="text-sm text-gray-900 text-right font-medium">
               {fmt(line.TotalAmountInTax)}
@@ -99,7 +121,9 @@ export default function OrderConfirmationEmail({
       <EvaIf expr="Data.Payments.Payments != null" show={!!paymentMethod}>
         <Row className="mt-1">
           <Column className="text-sm text-gray-500">Payment</Column>
-          <Column className="text-sm text-gray-700 text-right">{paymentMethod}</Column>
+          <Column className="text-sm text-gray-700 text-right">
+            {paymentMethod}
+          </Column>
         </Row>
       </EvaIf>
 

@@ -3,6 +3,8 @@ import OrderConfirmationEmail from "./OrderConfirmationEmail";
 import { orderConfirmationSample } from "./orderConfirmation.sample";
 import DiscountCouponEmail from "./DiscountCouponEmail";
 import { discountCouponSample } from "./discountCoupon.sample";
+import LoyaltyPointsMutatedEmail from "./LoyaltyPointsMutatedEmail";
+import { loyaltyPointsMutatedSample } from "./loyaltyPointsMutated.sample";
 import EvapayEmail from "./EvapayEmail";
 import { evapaySample } from "./evapay.sample";
 import DigitalGiftCardMessageEmail from "./DigitalGiftCardMessageEmail";
@@ -49,15 +51,34 @@ const defineTemplate = <T>(entry: TemplateEntry<T>): TemplateEntry<any> => entry
 
 export const templates = [
   defineTemplate({
+    slug: "loyalty-points-mutated",
+    name: "Loyalty Points Mutated",
+    description: "Sent when a customer's loyalty points balance changes.",
+    component: LoyaltyPointsMutatedEmail,
+    sampleData: loyaltyPointsMutatedSample,
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US").format(Math.round(s.CurrentLoyaltyBalance))]:
+        `{{>CurrentLoyaltyBalance}}`,
+    }),
+    loopVarReplacements: (s) => ({
+      "Deposits": {
+        [String(s.Deposits[0].Points)]: `{{>Points}}`,
+      },
+      "Withdrawals": {
+        [String(s.Withdrawals[0].Points)]: `{{>Points}}`,
+      },
+    }),
+  }),
+  defineTemplate({
     slug: "discount-coupon",
-    name: "Discount Coupon",
+    name: "Discount Coupon Email",
     description: "Sent when a customer earns a discount coupon.",
     component: DiscountCouponEmail,
     sampleData: discountCouponSample,
   }),
   defineTemplate({
     slug: "order-confirmation",
-    name: "Order Confirmed",
+    name: "Order Placed Confirmation",
     description: "Sent when a customer places an order.",
     component: OrderConfirmationEmail,
     sampleData: orderConfirmationSample,

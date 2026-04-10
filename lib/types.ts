@@ -324,6 +324,42 @@ export interface OrderConfirmationDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface LoyaltyProgramRef {
+  LoyaltyProgramID: string;
+  BackendID?: string;
+  Name?: string;
+}
+
+export interface LoyaltyPointsMutation {
+  Description: string;
+  Points: number;
+}
+
+export interface LoyaltyPointsMutatedOrder {
+  ID: string;
+  CurrencyID?: string;
+  TotalAmountInTax?: number;
+}
+
+export interface LoyaltyPointsMutatedDataModel {
+  TemplateName: string;
+  LoyaltyProgram: LoyaltyProgramRef;
+  Order?: LoyaltyPointsMutatedOrder;
+  User: User;
+  CurrentLoyaltyBalance: number;
+  Deposits: LoyaltyPointsMutation[];
+  Withdrawals: LoyaltyPointsMutation[];
+  GeneratedCouponCode?: string | null;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export interface DiscountCouponOriginatingDiscount {
   Description?: string;
   MarketingDescription?: string;

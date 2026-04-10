@@ -13,7 +13,8 @@
       "Bash(node /Users/davido/Documents/GitHub/personal/eva-email/scripts/list_components.mjs)",
       "WebFetch(domain:heroui.com)",
       "Bash(grep -n \"Date\\\\|date\\\\|Expir\\\\|expir\\\\|ResetExpires\\\\|ExpiresAt\" /Users/davido/Documents/GitHub/personal/eva-email/emails/*.tsx)",
-      "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_component_docs.mjs ColorField)"
+      "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_component_docs.mjs ColorField)",
+      "Bash(grep -h \"TemplateName:\" /Users/davido/Documents/GitHub/personal/eva-email/emails/*.sample.ts)"
     ]
   }
 }
