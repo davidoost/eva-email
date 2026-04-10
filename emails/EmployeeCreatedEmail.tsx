@@ -6,12 +6,20 @@ interface EmployeeCreatedEmailProps {
   data: EmployeeCreatedDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
+  buttonBg?: string;
+  buttonFg?: string;
 }
 
 export default function EmployeeCreatedEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
+  buttonBg,
+  buttonFg,
 }: EmployeeCreatedEmailProps) {
   const { User, Password, SuiteUrl, PasswordResetToken } = data;
 
@@ -19,6 +27,7 @@ export default function EmployeeCreatedEmail({
     <EmailLayout
       previewText={`Welcome to ${brandName}, ${User.FirstName}!`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         Welcome to {brandName}, {User.FirstName}!
@@ -44,7 +53,8 @@ export default function EmployeeCreatedEmail({
       <Section>
         <Button
           href={`${SuiteUrl}/forgot-password/${PasswordResetToken}`}
-          className="bg-gray-900 text-white text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          className="text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          style={{ backgroundColor: buttonBg ?? "#111827", color: buttonFg ?? "#ffffff" }}
         >
           Set your password
         </Button>

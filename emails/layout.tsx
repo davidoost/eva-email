@@ -15,6 +15,7 @@ interface EmailLayoutProps {
   previewText: string;
   children: ReactNode;
   logoUrl?: string;
+  bodyBg?: string;
   debug?: Record<string, unknown>;
 }
 
@@ -22,6 +23,7 @@ const EmailLayout = ({
   previewText,
   children,
   logoUrl,
+  bodyBg,
   debug,
 }: EmailLayoutProps) => {
   return (
@@ -29,7 +31,10 @@ const EmailLayout = ({
       <Head />
       <Preview>{previewText}</Preview>
       <Tailwind>
-        <Body className="bg-[#f4f5f6] m-auto font-sans">
+        <Body
+          className="m-auto font-sans"
+          style={{ backgroundColor: bodyBg ?? "#f4f5f6" }}
+        >
           <Container className="w-full mb-10 mx-auto p-5 max-w-lg">
             <Section className="mt-10">
               <Img
@@ -40,7 +45,7 @@ const EmailLayout = ({
               />
             </Section>
 
-            <Section className="bg-white mt-10 rounded-2xl p-4 px-6">
+            <Section className="mt-10 rounded-2xl p-4 px-6 bg-white">
               {children}
             </Section>
             {debug && (

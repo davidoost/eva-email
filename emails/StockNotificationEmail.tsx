@@ -7,6 +7,8 @@ interface StockNotificationEmailProps {
   data: StockNotificationDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
 }
 
 const DAY_NAMES = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -15,6 +17,8 @@ export default function StockNotificationEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
 }: StockNotificationEmailProps) {
   const { OrganizationUnit, ProductID, ProductProperties } = data;
 
@@ -25,6 +29,7 @@ export default function StockNotificationEmail({
     <EmailLayout
       previewText={`Good news — ${productName} is back in stock at ${OrganizationUnit.Name}`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         Back in stock!
@@ -46,7 +51,7 @@ export default function StockNotificationEmail({
             <Row
               key={h.Date}
               className="rounded-md"
-              style={{ backgroundColor: i % 2 === 0 ? "#f9fafb" : "transparent" }}
+              style={{ backgroundColor: i % 2 === 0 ? (surfaceBg ?? "#f9fafb") : "transparent" }}
             >
               <Column className="text-sm text-gray-700 font-medium py-2 px-3">
                 {DAY_NAMES[h.DayOfWeek]}

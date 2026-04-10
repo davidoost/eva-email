@@ -17,7 +17,15 @@ import { passwordResetCompletedSample } from "./passwordResetCompleted.sample";
 import PasswordResetRequestedEmail from "./PasswordResetRequestedEmail";
 import { passwordResetRequestedSample } from "./passwordResetRequested.sample";
 
-type EmailComponent<T> = (props: { data: T; logoUrl?: string; brandName?: string }) => React.ReactElement;
+type EmailComponent<T> = (props: {
+  data: T;
+  logoUrl?: string;
+  brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
+  buttonBg?: string;
+  buttonFg?: string;
+}) => React.ReactElement;
 
 interface TemplateEntry<T> {
   slug: string;

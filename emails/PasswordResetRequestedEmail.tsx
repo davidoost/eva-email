@@ -6,12 +6,20 @@ interface PasswordResetRequestedEmailProps {
   data: PasswordResetRequestedDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
+  buttonBg?: string;
+  buttonFg?: string;
 }
 
 export default function PasswordResetRequestedEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
+  buttonBg,
+  buttonFg,
 }: PasswordResetRequestedEmailProps) {
   const { User, Token, SuiteUrl, ExpiresAt } = data;
 
@@ -23,6 +31,7 @@ export default function PasswordResetRequestedEmail({
     <EmailLayout
       previewText={`Reset your ${brandName} password`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         Password reset request
@@ -36,7 +45,8 @@ export default function PasswordResetRequestedEmail({
       <Section>
         <Button
           href={`${SuiteUrl}/forgot-password/${Token}`}
-          className="bg-gray-900 text-white text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          className="text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          style={{ backgroundColor: buttonBg ?? "#111827", color: buttonFg ?? "#ffffff" }}
         >
           Reset your password
         </Button>

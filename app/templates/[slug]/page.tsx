@@ -6,6 +6,7 @@ import EmailPreview from "@/components/email-preview";
 import { templates } from "@/emails";
 import { getHelpers, type HighlightedHelper } from "@/lib/helpers";
 import { injectTemplateVars, makeBoundedPattern } from "@/lib/template-vars";
+import { deriveEmailColors } from "@/lib/color";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
@@ -29,11 +30,16 @@ export default async function TemplatePage(props: Props) {
   const resolvedBrandName =
     (typeof qBrandName === "string" ? qBrandName : cookieSettings.brandName) || undefined;
 
+  const colors = cookieSettings.accentColor
+    ? deriveEmailColors(cookieSettings.accentColor)
+    : undefined;
+
   const rendered = await render(
     template.component({
       data: template.sampleData,
       logoUrl: resolvedLogoUrl,
       brandName: resolvedBrandName,
+      ...colors,
     }),
   );
 

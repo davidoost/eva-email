@@ -6,17 +6,22 @@ interface CustomerCreatedEmailProps {
   data: CustomerCreatedDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
 }
 
 export default function CustomerCreatedEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
 }: CustomerCreatedEmailProps) {
   return (
     <EmailLayout
       previewText={`Welcome, ${data.User.FirstName}!`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         Welcome to <strong>{brandName}</strong>, {data.User.FirstName as string}

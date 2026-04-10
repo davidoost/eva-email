@@ -7,12 +7,16 @@ interface DigitalGiftCardSenderMessageEmailProps {
   data: DigitalGiftCardSenderMessageDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
 }
 
 export default function DigitalGiftCardSenderMessageEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
 }: DigitalGiftCardSenderMessageEmailProps) {
   const { Amount, CurrencyID, Data, Details } = data;
 
@@ -29,6 +33,7 @@ export default function DigitalGiftCardSenderMessageEmail({
     <EmailLayout
       previewText={`Your ${formattedAmount} gift card to ${Data.To} is on its way`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-2">
         Your gift card is on its way!
@@ -46,7 +51,7 @@ export default function DigitalGiftCardSenderMessageEmail({
       </EvaIf>
 
       <EvaIf expr="Data.Text != null" show={!!Data.Text}>
-        <Section className="bg-gray-50 rounded-lg px-5 py-4 my-6">
+        <Section className="rounded-lg px-5 py-4 my-6" style={{ backgroundColor: surfaceBg ?? "#f9fafb" }}>
           <Text className="text-sm text-gray-700 italic text-center m-0">
             "{Data.Text}"
           </Text>

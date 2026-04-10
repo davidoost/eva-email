@@ -7,12 +7,20 @@ interface EvapayEmailProps {
   data: EvapayDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
+  buttonBg?: string;
+  buttonFg?: string;
 }
 
 export default function EvapayEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
+  buttonBg,
+  buttonFg,
 }: EvapayEmailProps) {
   const { FirstName, OrderID, Amount, CurrencyID, Url, IsReminder, Order } = data;
 
@@ -23,6 +31,7 @@ export default function EvapayEmail({
     <EmailLayout
       previewText={`${IsReminder ? "Reminder: " : ""}Your payment request for order #${OrderID}`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         {IsReminder ? "Payment reminder" : "Payment request"}
@@ -62,7 +71,8 @@ export default function EvapayEmail({
       <Section>
         <Button
           href={Url}
-          className="bg-gray-900 text-white text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          className="text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          style={{ backgroundColor: buttonBg ?? "#111827", color: buttonFg ?? "#ffffff" }}
         >
           Pay now
         </Button>

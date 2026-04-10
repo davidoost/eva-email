@@ -6,12 +6,16 @@ interface PasswordResetCompletedEmailProps {
   data: PasswordResetCompletedDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
 }
 
 export default function PasswordResetCompletedEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
 }: PasswordResetCompletedEmailProps) {
   const { User } = data;
 
@@ -19,6 +23,7 @@ export default function PasswordResetCompletedEmail({
     <EmailLayout
       previewText={`Your ${brandName} password has been reset`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         Password updated

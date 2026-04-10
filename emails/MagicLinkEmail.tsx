@@ -6,12 +6,20 @@ interface MagicLinkEmailProps {
   data: MagicLinkDataModel;
   logoUrl?: string;
   brandName?: string;
+  bodyBg?: string;
+  surfaceBg?: string;
+  buttonBg?: string;
+  buttonFg?: string;
 }
 
 export default function MagicLinkEmail({
   data,
   logoUrl,
   brandName = "EVA",
+  bodyBg,
+  surfaceBg,
+  buttonBg,
+  buttonFg,
 }: MagicLinkEmailProps) {
   const { FirstName, Url, ManualCode } = data;
 
@@ -19,6 +27,7 @@ export default function MagicLinkEmail({
     <EmailLayout
       previewText={`Your sign-in link for ${brandName}`}
       logoUrl={logoUrl}
+      bodyBg={bodyBg}
     >
       <Heading className="text-2xl font-normal text-center p-0 mx-0 mb-8">
         Sign in to {brandName}
@@ -30,7 +39,8 @@ export default function MagicLinkEmail({
       <Section>
         <Button
           href={Url}
-          className="bg-gray-900 text-white text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          className="text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
+          style={{ backgroundColor: buttonBg ?? "#111827", color: buttonFg ?? "#ffffff" }}
         >
           Sign in
         </Button>
