@@ -37,9 +37,9 @@ export default function HomePage() {
           EVA Email Templates
         </h1>
         <p className="text-muted text-lg leading-relaxed">
-          Production-ready transactional email templates for EVA. Personalise
-          with your logo and brand name, then copy the HTML straight into the
-          Stencil chapter in Admin Suite.
+          Ready-made email templates for EVA. Personalise with your logo and
+          brand name, then copy the HTML straight into the Stencil chapter in
+          Admin Suite.
         </p>
       </div>
 

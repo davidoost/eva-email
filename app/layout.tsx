@@ -17,11 +17,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "EVA Email",
   description:
-    "Preview and copy production-ready transactional email templates for the EVA retail platform. Customize with your logo and brand name, then paste directly into the EVA Admin Suite Stencil chapter.",
+    "Preview and copy email templates for the EVA retail platform. Customize with your logo and brand name, then paste directly into the EVA Admin Suite Stencil chapter.",
   openGraph: {
     title: "EVA Email",
-    description:
-      "Preview and copy production-ready transactional email templates for the EVA retail platform.",
+    description: "Preview and copy email templates for the EVA.",
     type: "website",
   },
 };
@@ -41,7 +40,9 @@ export default function RootLayout({
         <Providers>
           <div className="flex flex-col w-full max-w-4xl h-full">
             <Navigation />
-            <main className="flex-1 flex flex-col min-h-0 overflow-y-auto">{children}</main>
+            <main className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+              {children}
+            </main>
           </div>
         </Providers>
       </body>
