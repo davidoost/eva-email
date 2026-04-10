@@ -24,7 +24,8 @@ export default function EmployeeCreatedEmail({
         Welcome to {brandName}, {User.FirstName}!
       </Heading>
       <Text className="text-sm leading-relaxed">
-        Hi {User.FirstName}, your employee account has been created. You can sign in using the credentials below.
+        Hi {User.FirstName}, your employee account has been created. You can
+        sign in using the credentials below.
       </Text>
       <Hr className="border-gray-100 my-6" />
       <Text className="text-xs font-semibold uppercase tracking-widest text-gray-400 m-0 mb-1">
@@ -42,14 +43,20 @@ export default function EmployeeCreatedEmail({
       <Hr className="border-gray-100 my-6" />
       <Section>
         <Button
-          href={`${SuiteUrl}/reset-password/${PasswordResetToken}`}
+          href={`${SuiteUrl}/forgot-password/${PasswordResetToken}`}
           className="bg-gray-900 text-white text-sm font-semibold rounded-lg px-5 py-3 text-center w-full box-border"
         >
           Set your password
         </Button>
       </Section>
       <Text className="text-xs text-gray-400 text-center mt-6">
-        This link expires on {new Date(data.ResetExpiresAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}. If you didn't expect this email, please contact your administrator.
+        This link expires on{" "}
+        {new Date(data.ResetExpiresAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+        . If you didn't expect this email, please contact your administrator.
       </Text>
     </EmailLayout>
   );

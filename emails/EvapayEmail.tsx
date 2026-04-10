@@ -1,6 +1,7 @@
 import { EvapayDataModel } from "@/lib/types";
 import { Button, Heading, Hr, Row, Column, Section, Text } from "@react-email/components";
 import EmailLayout from "./layout";
+import { EvaFor } from "./eva-for";
 
 interface EvapayEmailProps {
   data: EvapayDataModel;
@@ -32,17 +33,21 @@ export default function EvapayEmail({
 
       {/* Order lines */}
       <Section className="my-4">
-        {Order.Lines.map((line) => (
-          <Row key={line.ID} className="mb-2">
-            <Column className="text-sm text-gray-700">
-              {line.Description}
-              <span className="text-gray-400"> × {line.TotalQuantityToShip}</span>
-            </Column>
-            <Column className="text-sm text-gray-900 text-right">
-              {fmt(line.TotalAmountInTax, Order.CurrencyID)}
-            </Column>
-          </Row>
-        ))}
+        <EvaFor
+          expr="Order.Lines"
+          items={Order.Lines}
+          renderItem={(line) => (
+            <Row key={line.ID} className="mb-2">
+              <Column className="text-sm text-gray-700">
+                {line.Description}
+                <span className="text-gray-400"> × {line.TotalQuantityToShip}</span>
+              </Column>
+              <Column className="text-sm text-gray-900 text-right">
+                {fmt(line.TotalAmountInTax, Order.CurrencyID)}
+              </Column>
+            </Row>
+          )}
+        />
       </Section>
 
       <Hr className="border-gray-100 my-4" />

@@ -13,7 +13,11 @@ export default function PasswordResetRequestedEmail({
   logoUrl,
   brandName = "EVA",
 }: PasswordResetRequestedEmailProps) {
-  const { User, Token, SuiteUrl } = data;
+  const { User, Token, SuiteUrl, ExpiresAt } = data;
+
+  const formattedExpiry = new Date(ExpiresAt).toLocaleString("en-US", {
+    year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit",
+  });
 
   return (
     <EmailLayout
@@ -26,7 +30,7 @@ export default function PasswordResetRequestedEmail({
       <Text className="text-sm leading-relaxed">
         Hi {User.FirstName}, we received a request to reset the password for
         your {brandName} account. Click the button below to complete your
-        password reset. It expires in 15 minutes.
+        password reset. This link expires on {formattedExpiry}.
       </Text>
       <Hr className="border-gray-100 my-6" />
       <Section>

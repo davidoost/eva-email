@@ -9,11 +9,22 @@ import { ThemeSwitcher } from "./theme-switcher";
 export default function Navigation() {
   const pathname = usePathname();
 
-
   return (
     <nav className="w-full flex items-center justify-between p-4">
-      <Image src="/email-logo.png" height={32} width={100} alt="EVA Email" className="dark:hidden" />
-      <Image src="/email-logo-dark.png" height={32} width={100} alt="EVA Email" className="hidden dark:block" />
+      <Image
+        src="/email-logo.png"
+        height={24}
+        width={80}
+        alt="EVA Email"
+        className="dark:hidden"
+      />
+      <Image
+        src="/email-logo-dark.png"
+        height={24}
+        width={80}
+        alt="EVA Email"
+        className="hidden dark:block"
+      />
 
       <div className="flex items-center gap-2">
         <Link
@@ -22,7 +33,7 @@ export default function Navigation() {
             variant: pathname === "/" ? "tertiary" : "ghost",
           })}
         >
-          Getting Started
+          Guide
         </Link>
         <Link
           href={`/templates`}

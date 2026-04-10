@@ -5,7 +5,15 @@ function flattenObject(
   return Object.entries(obj).reduce(
     (acc, [key, value]) => {
       const path = prefix ? `${prefix}.${key}` : key;
-      if (value && typeof value === "object" && !Array.isArray(value)) {
+      if (Array.isArray(value)) {
+        value.forEach((item, i) => {
+          if (item && typeof item === "object") {
+            Object.assign(acc, flattenObject(item as Record<string, unknown>, `${path}.${i}`));
+          } else if (typeof item === "string" && item.length >= 3) {
+            acc[`${path}.${i}`] = item;
+          }
+        });
+      } else if (value && typeof value === "object") {
         Object.assign(acc, flattenObject(value as Record<string, unknown>, path));
       } else if (typeof value === "string" && value.length >= 3) {
         acc[path] = value;
@@ -14,6 +22,13 @@ function flattenObject(
     },
     {} as Record<string, string>,
   );
+}
+
+function makeBoundedPattern(value: string): RegExp {
+  const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pre = /\w/.test(value[0]) ? "\\b" : "(?<![\\w])";
+  const post = /\w/.test(value[value.length - 1]) ? "\\b" : "(?![\\w])";
+  return new RegExp(`${pre}${escaped}${post}`, "g");
 }
 
 export function injectTemplateVars(
@@ -27,9 +42,10 @@ export function injectTemplateVars(
 
   let result = html;
   for (const [path, value] of entries) {
-    const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    result = result.replace(new RegExp(escaped, "g"), `{{>${path}}}`);
+    result = result.replace(makeBoundedPattern(value), `{{>${path}}}`);
   }
 
   return result;
 }
+
+export { makeBoundedPattern };

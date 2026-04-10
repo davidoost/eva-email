@@ -15,7 +15,13 @@ const steps = [
     number: "3",
     title: "Paste into EVA",
     description:
-      "In the EVA Admin Suite, go to the Stencil chapter and paste the HTML into the matching template slot. Done.",
+      "In the EVA Admin Suite, go to the Stencil chapter and paste the HTML into the matching template slot.",
+  },
+  {
+    number: "4",
+    title: "Add helpers",
+    description:
+      "Some templates use custom helper functions for formatting dates and currencies. If a template requires helpers, they're listed on the template page. Add them in the Helpers tab of your Stencil.",
   },
 ];
 
@@ -50,7 +56,10 @@ export default function HomePage() {
             <div
               key={step.number}
               className="flex gap-4 animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${(i + 2) * 60}ms`, animationFillMode: "forwards" }}
+              style={{
+                animationDelay: `${(i + 2) * 60}ms`,
+                animationFillMode: "forwards",
+              }}
             >
               <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-default text-xs font-semibold text-muted">
                 {step.number}

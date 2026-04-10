@@ -1,6 +1,7 @@
 import { DigitalGiftCardSenderMessageDataModel } from "@/lib/types";
 import { Heading, Hr, Img, Section, Text } from "@react-email/components";
 import EmailLayout from "./layout";
+import { EvaIf } from "./eva-if";
 
 interface DigitalGiftCardSenderMessageEmailProps {
   data: DigitalGiftCardSenderMessageDataModel;
@@ -21,11 +22,7 @@ export default function DigitalGiftCardSenderMessageEmail({
   }).format(Amount);
 
   const formattedDelivery = Data.DeliverySchedule
-    ? new Date(Data.DeliverySchedule).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+    ? new Date(Data.DeliverySchedule).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
     : undefined;
 
   return (
@@ -41,23 +38,27 @@ export default function DigitalGiftCardSenderMessageEmail({
       </Text>
       <Text className="text-sm text-center text-gray-500 mt-0">
         Sent to <strong>{Data.To}</strong>
-        {formattedDelivery ? ` · Delivers ${formattedDelivery}` : ""}
       </Text>
+      <EvaIf expr="Data.DeliverySchedule != null" show={!!formattedDelivery}>
+        <Text className="text-sm text-center text-gray-500 mt-0">
+          Delivers {formattedDelivery}
+        </Text>
+      </EvaIf>
 
-      {Data.Text && (
+      <EvaIf expr="Data.Text != null" show={!!Data.Text}>
         <Section className="bg-gray-50 rounded-lg px-5 py-4 my-6">
           <Text className="text-sm text-gray-700 italic text-center m-0">
             "{Data.Text}"
           </Text>
         </Section>
-      )}
+      </EvaIf>
 
       <Hr className="border-gray-100 my-6" />
 
-      <Text className="text-xs font-semibold uppercase tracking-widest text-gray-400 m-0 mb-1">
+      <Text className="text-xs font-semibold uppercase tracking-widest text-gray-400 text-center m-0 mb-1">
         Gift card number
       </Text>
-      <Text className="text-sm font-semibold text-gray-900 mt-0 mb-4">
+      <Text className="text-sm font-semibold text-gray-900 text-center mt-0 mb-4">
         {Details.GiftCardNumber}
       </Text>
 

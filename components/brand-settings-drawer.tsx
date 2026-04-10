@@ -1,9 +1,17 @@
 "use client";
 
-import { Button, Drawer, Input, Label, TextField, useOverlayState } from "@heroui/react";
+import {
+  Button,
+  Drawer,
+  Input,
+  Label,
+  TextField,
+  useOverlayState,
+} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/lib/hooks/use-is-mobile";
 
 const COOKIE_KEY = "eva-brand-settings";
 
@@ -15,8 +23,12 @@ interface BrandSettings {
 function loadSettings(): BrandSettings {
   if (typeof window === "undefined") return { logoUrl: "", brandName: "" };
   try {
-    const match = document.cookie.split("; ").find((c) => c.startsWith(`${COOKIE_KEY}=`));
-    return match ? JSON.parse(decodeURIComponent(match.split("=")[1])) : { logoUrl: "", brandName: "" };
+    const match = document.cookie
+      .split("; ")
+      .find((c) => c.startsWith(`${COOKIE_KEY}=`));
+    return match
+      ? JSON.parse(decodeURIComponent(match.split("=")[1]))
+      : { logoUrl: "", brandName: "" };
   } catch {
     return { logoUrl: "", brandName: "" };
   }
@@ -36,17 +48,12 @@ export function BrandSettingsDrawer() {
 
   const [logoUrl, setLogoUrl] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [placement, setPlacement] = useState<"right" | "bottom">("right");
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const saved = loadSettings();
     setLogoUrl(saved.logoUrl ?? "");
     setBrandName(saved.brandName ?? "");
-
-    const check = () => setPlacement(window.innerWidth < 640 ? "bottom" : "right");
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
   }, []);
 
   const save = () => {
@@ -70,18 +77,29 @@ export function BrandSettingsDrawer() {
       </Button>
 
       <Drawer.Backdrop isOpen={state.isOpen} onOpenChange={state.setOpen}>
-        <Drawer.Content placement={placement}>
+        <Drawer.Content placement={isMobile ? "bottom" : "right"}>
           <Drawer.Dialog>
             <Drawer.CloseTrigger />
             <Drawer.Header>
               <Drawer.Heading>Brand Settings</Drawer.Heading>
             </Drawer.Header>
             <Drawer.Body className="flex flex-col gap-4">
-              <TextField className="w-full" value={logoUrl} onChange={setLogoUrl}>
+              <TextField
+                className="w-full"
+                value={logoUrl}
+                onChange={setLogoUrl}
+              >
                 <Label>Logo URL</Label>
-                <Input placeholder="https://example.com/logo.png" variant="secondary" />
+                <Input
+                  placeholder="https://example.com/logo.png"
+                  variant="secondary"
+                />
               </TextField>
-              <TextField className="w-full" value={brandName} onChange={setBrandName}>
+              <TextField
+                className="w-full"
+                value={brandName}
+                onChange={setBrandName}
+              >
                 <Label>Brand Name</Label>
                 <Input placeholder="Acme Inc." variant="secondary" />
               </TextField>

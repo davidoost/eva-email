@@ -14,8 +14,6 @@ export function ThemeSwitcher({ className }: { className?: string }) {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   return (
     <Button
       variant="ghost"
@@ -23,10 +21,13 @@ export function ThemeSwitcher({ className }: { className?: string }) {
       onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
       size="sm"
       className={className}
+      aria-label="Toggle theme"
     >
-      <Icon
-        icon={theme === "dark" ? `hugeicons:moon-02` : `hugeicons:sun-01`}
-      />
+      {mounted && (
+        <Icon
+          icon={theme === "dark" ? "gravity-ui:moon" : "gravity-ui:sun"}
+        />
+      )}
     </Button>
   );
 }

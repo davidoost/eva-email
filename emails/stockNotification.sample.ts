@@ -28,6 +28,7 @@ export const stockNotificationSample: StockNotificationDataModel = {
   },
   ProductID: "1234",
   ProductProperties: {
+    name: "Handcrafted Leather Tote",
     backend_id: "w74cnqrx",
     testprop: "testval",
   },

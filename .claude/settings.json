@@ -7,7 +7,12 @@
       "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_styles.mjs Card)",
       "Bash(npx tsc:*)",
       "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_component_docs.mjs TextField)",
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "Bash(node -e \"const icons = require\\('/Users/davido/Documents/GitHub/personal/eva-email/node_modules/@iconify-json/gravity-ui/icons.json'\\); const names = Object.keys\\(icons.icons\\); console.log\\(names.filter\\(n => n.includes\\('moon'\\) || n.includes\\('sun'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node /Users/davido/Documents/GitHub/personal/eva-email/scripts/get_component_docs.mjs Tabs)",
+      "Bash(node /Users/davido/Documents/GitHub/personal/eva-email/scripts/list_components.mjs)",
+      "WebFetch(domain:heroui.com)",
+      "Bash(grep -n \"Date\\\\|date\\\\|Expir\\\\|expir\\\\|ResetExpires\\\\|ExpiresAt\" /Users/davido/Documents/GitHub/personal/eva-email/emails/*.tsx)"
     ]
   }
 }

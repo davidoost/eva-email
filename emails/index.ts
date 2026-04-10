@@ -25,6 +25,11 @@ interface TemplateEntry<T> {
   description: string;
   component: EmailComponent<T>;
   sampleData: T;
+  helpers?: string[];
+  /** Maps a rendered sample value to a helper expression for the copied template HTML */
+  varReplacements?: (sampleData: T) => Record<string, string>;
+  /** Per-loop replacements applied only within {{for}} body, keyed by array path */
+  loopVarReplacements?: (sampleData: T) => Record<string, Record<string, string>>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,6 +49,11 @@ export const templates = [
     description: "Sent when a customer requests a password reset.",
     component: PasswordResetRequestedEmail,
     sampleData: passwordResetRequestedSample,
+    helpers: ["date"],
+    varReplacements: (s) => ({
+      [new Date(s.ExpiresAt).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })]:
+        `{{:~date(ExpiresAt, "DD MMMM YYYY HH:mm", LanguageID, TimeZone)}}`,
+    }),
   }),
   defineTemplate({
     slug: "password-reset-completed",
@@ -58,6 +68,13 @@ export const templates = [
     description: "Sent to the recipient of a digital gift card.",
     component: DigitalGiftCardMessageEmail,
     sampleData: digitalGiftCardMessageSample,
+    helpers: ["currency", "date"],
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.CurrencyID }).format(s.Amount)]:
+        `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
+      [new Date(s.Details.DateOfExpiration!).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+        `{{:~date(Details.DateOfExpiration, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
+    }),
   }),
   defineTemplate({
     slug: "digital-gift-card-sender-message",
@@ -65,6 +82,13 @@ export const templates = [
     description: "Sent to the sender confirming their digital gift card was delivered.",
     component: DigitalGiftCardSenderMessageEmail,
     sampleData: digitalGiftCardSenderMessageSample,
+    helpers: ["currency", "date"],
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.CurrencyID }).format(s.Amount)]:
+        `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
+      [new Date(s.Data.DeliverySchedule!).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+        `{{:~date(Data.DeliverySchedule, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
+    }),
   }),
   defineTemplate({
     slug: "evapay",
@@ -72,6 +96,18 @@ export const templates = [
     description: "Sent to request or remind a customer to complete a payment.",
     component: EvapayEmail,
     sampleData: evapaySample,
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.CurrencyID }).format(s.Amount)]:
+        `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
+    }),
+    loopVarReplacements: (s) => ({
+      "Order.Lines": {
+        [String(s.Order.Lines[0].TotalQuantityToShip)]: `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.Lines[0].TotalAmountInTax)]:
+          `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      },
+    }),
+    helpers: ["currency"],
   }),
   defineTemplate({
     slug: "magic-link",
@@ -93,6 +129,11 @@ export const templates = [
     description: "Sent when a new employee account is created.",
     component: EmployeeCreatedEmail,
     sampleData: employeeCreatedSample,
+    helpers: ["date"],
+    varReplacements: (s) => ({
+      [new Date(s.ResetExpiresAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+        `{{:~date(ResetExpiresAt, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
+    }),
   }),
 ];
 

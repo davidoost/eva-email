@@ -1,6 +1,7 @@
 import { DigitalGiftCardMessageDataModel } from "@/lib/types";
 import { Heading, Hr, Img, Section, Text } from "@react-email/components";
 import EmailLayout from "./layout";
+import { EvaIf } from "./eva-if";
 
 interface DigitalGiftCardMessageEmailProps {
   data: DigitalGiftCardMessageDataModel;
@@ -21,11 +22,7 @@ export default function DigitalGiftCardMessageEmail({
   }).format(Amount);
 
   const formattedExpiry = Details.DateOfExpiration
-    ? new Date(Details.DateOfExpiration).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+    ? new Date(Details.DateOfExpiration).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
     : undefined;
 
   return (
@@ -43,13 +40,13 @@ export default function DigitalGiftCardMessageEmail({
         From <strong>{Data.From}</strong> to <strong>{Data.To}</strong>
       </Text>
 
-      {Data.Text && (
+      <EvaIf expr="Data.Text != null" show={!!Data.Text}>
         <Section className="bg-gray-50 rounded-lg px-5 py-4 my-6">
           <Text className="text-sm text-gray-700 italic text-center m-0">
             "{Data.Text}"
           </Text>
         </Section>
-      )}
+      </EvaIf>
 
       <Hr className="border-gray-100 my-6" />
 
@@ -59,16 +56,16 @@ export default function DigitalGiftCardMessageEmail({
       <Text className="text-2xl font-bold tracking-widest text-center my-2">
         {Details.GiftCardNumber}
       </Text>
-      {Details.PIN && (
+      <EvaIf expr="Details.PIN != null" show={!!Details.PIN}>
         <Text className="text-sm text-center text-gray-500 mt-0">
           PIN: <strong>{Details.PIN}</strong>
         </Text>
-      )}
-      {formattedExpiry && (
+      </EvaIf>
+      <EvaIf expr="Details.DateOfExpiration != null" show={!!formattedExpiry}>
         <Text className="text-xs text-center text-gray-400 mt-2">
           Valid until {formattedExpiry}
         </Text>
-      )}
+      </EvaIf>
 
       <Hr className="border-gray-100 my-6" />
 
