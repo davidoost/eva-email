@@ -1,4 +1,6 @@
 import CustomerCreatedEmail from "./CustomerCreatedEmail";
+import OrderConfirmationEmail from "./OrderConfirmationEmail";
+import { orderConfirmationSample } from "./orderConfirmation.sample";
 import EvapayEmail from "./EvapayEmail";
 import { evapaySample } from "./evapay.sample";
 import DigitalGiftCardMessageEmail from "./DigitalGiftCardMessageEmail";
@@ -44,6 +46,29 @@ interface TemplateEntry<T> {
 const defineTemplate = <T>(entry: TemplateEntry<T>): TemplateEntry<any> => entry;
 
 export const templates = [
+  defineTemplate({
+    slug: "order-confirmation",
+    name: "Order Confirmed",
+    description: "Sent when a customer places an order.",
+    component: OrderConfirmationEmail,
+    sampleData: orderConfirmationSample,
+    helpers: ["currency", "date"],
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.TotalAmountInTax)]:
+        `{{:~currency(Order.TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      [new Date(s.Data.InvoiceData!.PlacementDateTime!).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+        `{{:~date(Data.InvoiceData.PlacementDateTime, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
+    }),
+    loopVarReplacements: (s) => ({
+      "Order.Lines": {
+        [String(s.Order.Lines[0].TotalQuantityToShip)]: `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.Lines[0].UnitPriceInTax)]:
+          `{{:~currency(UnitPriceInTax, Order.CurrencyID, LanguageID)}}`,
+        [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.Lines[0].TotalAmountInTax)]:
+          `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      },
+    }),
+  }),
   defineTemplate({
     slug: "customer-created",
     name: "Customer Created",

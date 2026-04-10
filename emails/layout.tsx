@@ -38,7 +38,7 @@ const EmailLayout = ({
           <Container className="w-full mb-10 mx-auto p-5 max-w-lg">
             <Section className="mt-10">
               <Img
-                src={logoUrl ?? `/email-logo.png`}
+                src={logoUrl}
                 height="32"
                 alt="Logo"
                 className="my-0 mx-auto"

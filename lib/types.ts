@@ -267,6 +267,63 @@ export interface EmployeeCreatedDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface PostalAddress {
+  FirstName?: string;
+  LastName?: string;
+  PhoneNumber?: string;
+  EmailAddress?: string;
+  HouseNumber?: string;
+  Address1?: string;
+  Address2?: string;
+  ZipCode?: string;
+  City?: string;
+  State?: string;
+  CountryID?: string;
+  ZipCodeAndCity?: string;
+  StreetAndHouseNumber?: string;
+}
+
+export interface OrderConfirmationInvoiceData {
+  InvoiceNumber?: string;
+  PlacementDateTime?: string;
+  InvoiceDateTime?: string;
+}
+
+export interface OrderConfirmationPayment {
+  TypeName?: string;
+  Amount?: number;
+  Date?: string;
+}
+
+export interface OrderConfirmationOrder {
+  ID: string;
+  CurrencyID: string;
+  TotalAmountInTax: number;
+  ShippingAddress?: PostalAddress;
+  BillingAddress?: PostalAddress;
+  Lines: OrderLine[];
+}
+
+export interface OrderConfirmationDataModel {
+  TemplateName: string;
+  Order: OrderConfirmationOrder;
+  User: User;
+  Data: {
+    InvoiceData?: OrderConfirmationInvoiceData;
+    Payments?: {
+      Payments?: OrderConfirmationPayment[];
+    };
+  };
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export type DigitalGiftCardSenderMessageDataModel = DigitalGiftCardMessageDataModel;
 
 export interface DigitalGiftCardMessageDataModel {
