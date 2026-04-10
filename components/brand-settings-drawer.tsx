@@ -102,7 +102,7 @@ export function BrandSettingsDrawer() {
 
       <Drawer.Backdrop isOpen={state.isOpen} onOpenChange={state.setOpen}>
         <Drawer.Content placement={isMobile ? "bottom" : "right"}>
-          <Drawer.Dialog className={isMobile ? "max-h-[85dvh]" : ""}>
+          <Drawer.Dialog className={isMobile ? "max-h-[70dvh]" : ""}>
             <Drawer.CloseTrigger />
             <Drawer.Header>
               <Drawer.Heading>Brand Settings</Drawer.Heading>
