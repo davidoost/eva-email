@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_component_docs.mjs Drawer)",
+      "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_styles.mjs Card)",
+      "Bash(npx tsc:*)",
+      "Bash(node /Users/davido/.claude/skills/heroui-react/scripts/get_component_docs.mjs TextField)",
+      "Bash(node -e ':*)"
+    ]
+  }
+}
