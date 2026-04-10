@@ -302,6 +302,7 @@ export interface OrderConfirmationOrder {
   ShippingAddress?: PostalAddress;
   BillingAddress?: PostalAddress;
   Lines: OrderLine[];
+  Payments: OrderConfirmationPayment[];
 }
 
 export interface OrderConfirmationDataModel {
@@ -310,9 +311,6 @@ export interface OrderConfirmationDataModel {
   User: User;
   Data: {
     InvoiceData?: OrderConfirmationInvoiceData;
-    Payments?: {
-      Payments?: OrderConfirmationPayment[];
-    };
   };
   ApplicationCode?: string;
   AssetsUrl: string;
@@ -398,7 +396,8 @@ export interface DiscountCouponDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
-export type DigitalGiftCardSenderMessageDataModel = DigitalGiftCardMessageDataModel;
+export type DigitalGiftCardSenderMessageDataModel =
+  DigitalGiftCardMessageDataModel;
 
 export interface DigitalGiftCardMessageDataModel {
   TemplateName: string;

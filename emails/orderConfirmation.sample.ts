@@ -46,6 +46,13 @@ export const orderConfirmationSample: OrderConfirmationDataModel = {
         Type: "NormalProduct",
       },
     ],
+    Payments: [
+      {
+        TypeName: "iDEAL",
+        Amount: 324.94,
+        Date: "2026-04-10T13:36:29.683Z",
+      },
+    ],
   },
   User: {
     FirstName: "Warren",
@@ -65,15 +72,6 @@ export const orderConfirmationSample: OrderConfirmationDataModel = {
     InvoiceData: {
       InvoiceNumber: "798789",
       PlacementDateTime: "2026-04-10T13:36:29.683Z",
-    },
-    Payments: {
-      Payments: [
-        {
-          TypeName: "iDEAL",
-          Amount: 324.94,
-          Date: "2026-04-10T13:36:29.683Z",
-        },
-      ],
     },
   },
   AssetsUrl: "https://assets.eva-online.cloud",

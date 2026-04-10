@@ -44,7 +44,6 @@ export default function OrderConfirmationEmail({
       })
     : undefined;
 
-  const paymentMethod = Data.Payments?.Payments?.[0]?.TypeName;
   const shipping = Order.ShippingAddress;
 
   return (
@@ -118,13 +117,24 @@ export default function OrderConfirmationEmail({
         </Column>
       </Row>
 
-      <EvaIf expr="Data.Payments.Payments != null" show={!!paymentMethod}>
-        <Row className="mt-1">
-          <Column className="text-sm text-gray-500">Payment</Column>
-          <Column className="text-sm text-gray-700 text-right">
-            {paymentMethod}
-          </Column>
-        </Row>
+      <EvaIf
+        expr="Data.Payments.Payments != null"
+        show={Order.Payments.length > 0}
+      >
+        <EvaFor
+          expr="Order.Payments"
+          items={Order.Payments}
+          renderItem={(payment) => (
+            <Row className="mt-1">
+              <Column className="text-sm text-gray-500">
+                {payment.TypeName}
+              </Column>
+              <Column className="text-sm text-gray-700 text-right">
+                {fmt(payment.Amount || 0)}
+              </Column>
+            </Row>
+          )}
+        />
       </EvaIf>
 
       <EvaIf
