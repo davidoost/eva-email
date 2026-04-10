@@ -59,7 +59,7 @@ export interface EmailColors {
 
 export function deriveEmailColors(accentHex: string): EmailColors {
   const { l, h } = hexToOklch(accentHex);
-  const bodyBg = oklchToHex(0.9702, 0.01, h);
+  const bodyBg = oklchToHex(0.9702, 0.005, h);
   const surfaceBg = oklchToHex(0.9702, 0.005, h);
   const buttonBg = accentHex;
   const buttonFg = l > 0.65 ? "#000000" : "#ffffff";
