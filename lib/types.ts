@@ -324,6 +324,44 @@ export interface OrderConfirmationDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface DiscountCouponOriginatingDiscount {
+  Description?: string;
+  MarketingDescription?: string;
+  CampaignName?: string;
+}
+
+export interface DiscountCouponOriginatingAppointment {
+  ID?: string;
+  EventID?: string;
+  EventName?: string;
+  Date?: string;
+  Duration?: number;
+  Description?: string;
+}
+
+export interface DiscountCouponOriginatingOrder {
+  ID: string;
+  CurrencyID?: string;
+  TotalAmountInTax?: number;
+}
+
+export interface DiscountCouponDataModel {
+  TemplateName: string;
+  CouponCode: string;
+  OriginatingDiscount?: DiscountCouponOriginatingDiscount;
+  OriginatingOrder?: DiscountCouponOriginatingOrder;
+  OriginatingAppointment?: DiscountCouponOriginatingAppointment;
+  Customer: User;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export type DigitalGiftCardSenderMessageDataModel = DigitalGiftCardMessageDataModel;
 
 export interface DigitalGiftCardMessageDataModel {

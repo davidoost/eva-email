@@ -1,7 +1,6 @@
 "use client";
 
-import { Input, SearchField, TextField } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { SearchField } from "@heroui/react";
 import Link from "next/link";
 import { Card } from "@heroui/react";
 import { useState } from "react";
@@ -14,13 +13,13 @@ export function TemplatesGrid() {
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name))
     .filter((t) => {
-    const q = query.toLowerCase();
-    return (
-      t.name.toLowerCase().includes(q) ||
-      t.description.toLowerCase().includes(q) ||
-      t.sampleData.TemplateName.toLowerCase().includes(q)
-    );
-  });
+      const q = query.toLowerCase();
+      return (
+        t.name.toLowerCase().includes(q) ||
+        t.description.toLowerCase().includes(q) ||
+        t.sampleData.TemplateName.toLowerCase().includes(q)
+      );
+    });
 
   return (
     <div className="flex flex-col gap-6">
@@ -52,7 +51,10 @@ export function TemplatesGrid() {
               key={template.slug}
               href={`/templates/${template.slug}`}
               className="animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${(i + 1) * 60}ms`, animationFillMode: "forwards" }}
+              style={{
+                animationDelay: `${(i + 1) * 40}ms`,
+                animationFillMode: "forwards",
+              }}
             >
               <Card className="ring-0 hover:ring-2 ring-accent">
                 <Card.Header>

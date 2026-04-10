@@ -1,6 +1,8 @@
 import CustomerCreatedEmail from "./CustomerCreatedEmail";
 import OrderConfirmationEmail from "./OrderConfirmationEmail";
 import { orderConfirmationSample } from "./orderConfirmation.sample";
+import DiscountCouponEmail from "./DiscountCouponEmail";
+import { discountCouponSample } from "./discountCoupon.sample";
 import EvapayEmail from "./EvapayEmail";
 import { evapaySample } from "./evapay.sample";
 import DigitalGiftCardMessageEmail from "./DigitalGiftCardMessageEmail";
@@ -46,6 +48,13 @@ interface TemplateEntry<T> {
 const defineTemplate = <T>(entry: TemplateEntry<T>): TemplateEntry<any> => entry;
 
 export const templates = [
+  defineTemplate({
+    slug: "discount-coupon",
+    name: "Discount Coupon",
+    description: "Sent when a customer earns a discount coupon.",
+    component: DiscountCouponEmail,
+    sampleData: discountCouponSample,
+  }),
   defineTemplate({
     slug: "order-confirmation",
     name: "Order Confirmed",
