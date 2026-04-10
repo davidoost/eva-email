@@ -35,7 +35,12 @@ export function TemplatesGrid() {
           </p>
         </div>
 
-        <SearchField name="search" value={query} onChange={setQuery}>
+        <SearchField
+          name="search"
+          value={query}
+          onChange={setQuery}
+          className={`flex-1 min-w-32`}
+        >
           <SearchField.Group>
             <SearchField.SearchIcon />
             <SearchField.Input placeholder="Search..." />
@@ -45,7 +50,7 @@ export function TemplatesGrid() {
       </div>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
           {filtered.map((template, i) => (
             <Link
               key={template.slug}
