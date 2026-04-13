@@ -396,6 +396,43 @@ export interface StockReservationDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface CaseInteractionCreatedDataModel extends CaseCreatedDataModel {
+  InteractionText?: string;
+  User: User;
+}
+
+export interface CaseUpdatedDataModel extends CaseCreatedDataModel {
+  PriorityChanged: boolean;
+  PreviousPriority?: number;
+  StatusChanged: boolean;
+  IsReopened: boolean;
+  PreviousStatusName?: string;
+  PreviousStatusDescription?: string;
+}
+
+export interface CaseCreatedDataModel {
+  TemplateName: string;
+  ID: string;
+  TopicName?: string;
+  TopicDescription?: string;
+  Title: string;
+  Description?: string;
+  CurrentPriority?: number;
+  CurrentStatusName?: string;
+  CurrentStatusDescription?: string;
+  Customer: User;
+  AssignedOrganizationUnit?: OrganizationUnit;
+  OriginatingOrganizationUnit?: OrganizationUnit;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export interface ShippedLine {
   OrderLineID: string;
   Description: string;

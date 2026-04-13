@@ -19,6 +19,14 @@ import StockReservationEmail from "./StockReservationEmail";
 import { stockReservationSample } from "./stockReservation.sample";
 import OrderReturnedEmail from "./OrderReturnedEmail";
 import { orderReturnedSample } from "./orderReturned.sample";
+import CaseCreatedEmail from "./CaseCreatedEmail";
+import { caseCreatedSample } from "./caseCreated.sample";
+import CaseClosedEmail from "./CaseClosedEmail";
+import { caseClosedSample } from "./caseClosed.sample";
+import CaseUpdatedEmail from "./CaseUpdatedEmail";
+import { caseUpdatedSample } from "./caseUpdated.sample";
+import CaseInteractionCreatedEmail from "./CaseInteractionCreatedEmail";
+import { caseInteractionCreatedSample } from "./caseInteractionCreated.sample";
 import EmployeeCreatedEmail from "./EmployeeCreatedEmail";
 import { employeeCreatedSample } from "./employeeCreated.sample";
 import { customerCreatedSample } from "./customerCreated.sample";
@@ -288,6 +296,39 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "case-interaction-created",
+    name: "Case Interaction Created",
+    description: "Sent when a reply is added to a customer support case.",
+    component: CaseInteractionCreatedEmail,
+    sampleData: caseInteractionCreatedSample,
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "case-updated",
+    name: "Case Updated",
+    description:
+      "Sent when a customer support case status or priority changes.",
+    component: CaseUpdatedEmail,
+    sampleData: caseUpdatedSample,
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "case-closed",
+    name: "Case Closed",
+    description: "Sent when a customer support case is resolved and closed.",
+    component: CaseClosedEmail,
+    sampleData: caseClosedSample,
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "case-created",
+    name: "Case Created",
+    description: "Sent when a customer support case is opened.",
+    component: CaseCreatedEmail,
+    sampleData: caseCreatedSample,
     isNew: true,
   }),
   defineTemplate({
