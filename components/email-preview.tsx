@@ -16,12 +16,14 @@ export default function EmailPreview({
   highlightedHtmlLight,
   highlightedHtmlDark,
   helpers = [],
+  bodyBg = "#f4f5f6",
 }: {
   html: string;
   templateHtml: string;
   highlightedHtmlLight: string;
   highlightedHtmlDark: string;
   helpers?: HighlightedHelper[];
+  bodyBg?: string;
 }) {
   const [tab, setTab] = useState<Tab>("preview");
   const [copying, setCopying] = useState(false);
@@ -87,7 +89,7 @@ export default function EmailPreview({
           <HelpersDrawer helpers={helpers} triggerRef={openHelpers} />
         </div>
       </div>
-      <Card className="flex-1 min-h-0 p-0 gap-0 border overflow-hidden">
+      <Card className="flex-1 min-h-0 p-0 gap-0 border overflow-hidden" style={{ backgroundColor: bodyBg }}>
         <Card.Content className="overflow-auto h-full p-0">
           {tab === "preview" ? (
             <iframe

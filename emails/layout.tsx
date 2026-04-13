@@ -4,6 +4,7 @@ import {
   Head,
   Html,
   Img,
+  Link,
   Preview,
   Section,
   Tailwind,
@@ -60,7 +61,7 @@ const EmailLayout = ({
               </details>
             )}
             <Text className="text-xs text-black/60 text-center">
-              Powered by EVA
+              Powered by <Link href="https://newblack.io" className="text-black/60">EVA</Link>
             </Text>
           </Container>
         </Body>

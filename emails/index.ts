@@ -43,13 +43,17 @@ interface TemplateEntry<T> {
   /** Maps a rendered sample value to a helper expression for the copied template HTML */
   varReplacements?: (sampleData: T) => Record<string, string>;
   /** Per-loop replacements applied only within {{for}} body, keyed by array path */
-  loopVarReplacements?: (sampleData: T) => Record<string, Record<string, string>>;
+  loopVarReplacements?: (
+    sampleData: T,
+  ) => Record<string, Record<string, string>>;
   /** Sequential replacements applied before injectTemplateVars — each pair replaces only the next occurrence */
   sequentialVarReplacements?: (sampleData: T) => Array<[string, string]>;
+  isNew?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const defineTemplate = <T>(entry: TemplateEntry<T>): TemplateEntry<any> => entry;
+const defineTemplate = <T>(entry: TemplateEntry<T>): TemplateEntry<any> =>
+  entry;
 
 export const templates = [
   defineTemplate({
@@ -59,14 +63,15 @@ export const templates = [
     component: LoyaltyPointsMutatedEmail,
     sampleData: loyaltyPointsMutatedSample,
     varReplacements: (s) => ({
-      [new Intl.NumberFormat("en-US").format(Math.round(s.CurrentLoyaltyBalance))]:
-        `{{>CurrentLoyaltyBalance}}`,
+      [new Intl.NumberFormat("en-US").format(
+        Math.round(s.CurrentLoyaltyBalance),
+      )]: `{{>CurrentLoyaltyBalance}}`,
     }),
     loopVarReplacements: (s) => ({
-      "Deposits": {
+      Deposits: {
         [String(s.Deposits[0].Points)]: `{{>Points}}`,
       },
-      "Withdrawals": {
+      Withdrawals: {
         [String(s.Withdrawals[0].Points)]: `{{>Points}}`,
       },
     }),
@@ -86,17 +91,30 @@ export const templates = [
     sampleData: orderConfirmationSample,
     helpers: ["currency", "date"],
     varReplacements: (s) => ({
-      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.TotalAmountInTax)]:
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.Order.CurrencyID,
+      }).format(s.Order.TotalAmountInTax)]:
         `{{:~currency(Order.TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
-      [new Date(s.Data.InvoiceData!.PlacementDateTime!).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+      [new Date(s.Data.InvoiceData!.PlacementDateTime!).toLocaleDateString(
+        "en-US",
+        { year: "numeric", month: "long", day: "numeric" },
+      )]:
         `{{:~date(Data.InvoiceData.PlacementDateTime, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
     loopVarReplacements: (s) => ({
       "Order.Lines": {
-        [String(s.Order.Lines[0].TotalQuantityToShip)]: `{{>TotalQuantityToShip}}`,
-        [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.Lines[0].UnitPriceInTax)]:
+        [String(s.Order.Lines[0].TotalQuantityToShip)]:
+          `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Lines[0].UnitPriceInTax)]:
           `{{:~currency(UnitPriceInTax, Order.CurrencyID, LanguageID)}}`,
-        [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.Lines[0].TotalAmountInTax)]:
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Lines[0].TotalAmountInTax)]:
           `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
       },
     }),
@@ -116,8 +134,13 @@ export const templates = [
     sampleData: passwordResetRequestedSample,
     helpers: ["date"],
     varReplacements: (s) => ({
-      [new Date(s.ExpiresAt).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })]:
-        `{{:~date(ExpiresAt, "DD MMMM YYYY HH:mm", LanguageID, TimeZone)}}`,
+      [new Date(s.ExpiresAt).toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })]: `{{:~date(ExpiresAt, "DD MMMM YYYY HH:mm", LanguageID, TimeZone)}}`,
     }),
   }),
   defineTemplate({
@@ -135,23 +158,36 @@ export const templates = [
     sampleData: digitalGiftCardMessageSample,
     helpers: ["currency", "date"],
     varReplacements: (s) => ({
-      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.CurrencyID }).format(s.Amount)]:
-        `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
-      [new Date(s.Details.DateOfExpiration!).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.CurrencyID,
+      }).format(s.Amount)]: `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
+      [new Date(s.Details.DateOfExpiration!).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })]:
         `{{:~date(Details.DateOfExpiration, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
   }),
   defineTemplate({
     slug: "digital-gift-card-sender-message",
     name: "Digital Gift Card Sender Message",
-    description: "Sent to the sender confirming their digital gift card was delivered.",
+    description:
+      "Sent to the sender confirming their digital gift card was delivered.",
     component: DigitalGiftCardSenderMessageEmail,
     sampleData: digitalGiftCardSenderMessageSample,
     helpers: ["currency", "date"],
     varReplacements: (s) => ({
-      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.CurrencyID }).format(s.Amount)]:
-        `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
-      [new Date(s.Data.DeliverySchedule!).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.CurrencyID,
+      }).format(s.Amount)]: `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
+      [new Date(s.Data.DeliverySchedule!).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })]:
         `{{:~date(Data.DeliverySchedule, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
   }),
@@ -162,13 +198,19 @@ export const templates = [
     component: EvapayEmail,
     sampleData: evapaySample,
     varReplacements: (s) => ({
-      [new Intl.NumberFormat("en-US", { style: "currency", currency: s.CurrencyID }).format(s.Amount)]:
-        `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.CurrencyID,
+      }).format(s.Amount)]: `{{:~currency(Amount, CurrencyID, LanguageID)}}`,
     }),
     loopVarReplacements: (s) => ({
       "Order.Lines": {
-        [String(s.Order.Lines[0].TotalQuantityToShip)]: `{{>TotalQuantityToShip}}`,
-        [new Intl.NumberFormat("en-US", { style: "currency", currency: s.Order.CurrencyID }).format(s.Order.Lines[0].TotalAmountInTax)]:
+        [String(s.Order.Lines[0].TotalQuantityToShip)]:
+          `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Lines[0].TotalAmountInTax)]:
           `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
       },
     }),
@@ -184,14 +226,24 @@ export const templates = [
   defineTemplate({
     slug: "stock-notification",
     name: "Stock Notification",
-    description: "Sent when a product a customer signed up for is back in stock.",
+    description:
+      "Sent when a product a customer signed up for is back in stock.",
     component: StockNotificationEmail,
     sampleData: stockNotificationSample,
     sequentialVarReplacements: (s) =>
-      (s.OrganizationUnit.UpcomingOpeningHours ?? []).flatMap((h, i) => [
-        [h.OpeningTime.slice(0, 5), `{{>OrganizationUnit.UpcomingOpeningHours[${i}].OpeningTime}}`],
-        [h.ClosingTime.slice(0, 5), `{{>OrganizationUnit.UpcomingOpeningHours[${i}].ClosingTime}}`],
-      ] as Array<[string, string]>),
+      (s.OrganizationUnit.UpcomingOpeningHours ?? []).flatMap(
+        (h, i) =>
+          [
+            [
+              h.OpeningTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].OpeningTime}}`,
+            ],
+            [
+              h.ClosingTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].ClosingTime}}`,
+            ],
+          ] as Array<[string, string]>,
+      ),
   }),
   defineTemplate({
     slug: "employee-created",
@@ -201,8 +253,11 @@ export const templates = [
     sampleData: employeeCreatedSample,
     helpers: ["date"],
     varReplacements: (s) => ({
-      [new Date(s.ResetExpiresAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })]:
-        `{{:~date(ResetExpiresAt, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
+      [new Date(s.ResetExpiresAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })]: `{{:~date(ResetExpiresAt, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
   }),
 ];

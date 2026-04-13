@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchField } from "@heroui/react";
+import { Badge, Chip, SearchField } from "@heroui/react";
 import Link from "next/link";
 import { Card } from "@heroui/react";
 import { useState } from "react";
@@ -53,7 +53,7 @@ export function TemplatesGrid() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
           {filtered.map((template, i) => (
             <Link
-              key={template.slug}
+              key={template.name}
               href={`/templates/${template.slug}`}
               className="animate-fade-in-up opacity-0"
               style={{
@@ -63,7 +63,14 @@ export function TemplatesGrid() {
             >
               <Card className="ring-0 hover:ring-2 ring-accent">
                 <Card.Header>
-                  <Card.Title>{template.name}</Card.Title>
+                  <div className="flex items-center justify-between">
+                    <Card.Title>{template.name}</Card.Title>
+                    {template.isNew && (
+                      <Chip color="accent" variant="soft">
+                        New
+                      </Chip>
+                    )}
+                  </div>
                   {template.description && (
                     <Card.Description className="line-clamp-2">
                       {template.description}

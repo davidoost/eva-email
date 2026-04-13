@@ -132,6 +132,7 @@ export default async function TemplatePage(props: Props) {
         highlightedHtmlLight={highlightedHtmlLight}
         highlightedHtmlDark={highlightedHtmlDark}
         helpers={highlightedHelpers}
+        bodyBg={colors?.bodyBg ?? "#f4f5f6"}
       />
     </div>
   );
