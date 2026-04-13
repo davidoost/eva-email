@@ -358,6 +358,44 @@ export interface LoyaltyPointsMutatedDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface StockReservationOrderLine {
+  ID: string;
+  ProductID: string;
+  Description: string;
+  CurrencyID: string;
+  UnitPriceInTax: number;
+  TotalAmountInTax: number;
+  TotalQuantityToShip: number;
+}
+
+export interface StockReservationOrder {
+  ID: string;
+  BackendID?: string;
+  CurrencyID: string;
+  TotalAmountInTax: number;
+  ShippingAddress?: PostalAddress;
+  BillingAddress?: PostalAddress;
+  Lines: StockReservationOrderLine[];
+}
+
+export interface StockReservationDataModel {
+  TemplateName: string;
+  Order: StockReservationOrder;
+  CancelledLines?: StockReservationOrderLine[] | null;
+  VerificationCode?: string;
+  User: User;
+  OrganizationUnit: StockNotificationOrganizationUnit;
+  Deadline?: string;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export interface DiscountCouponOriginatingDiscount {
   Description?: string;
   MarketingDescription?: string;

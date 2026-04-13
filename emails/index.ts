@@ -15,6 +15,8 @@ import MagicLinkEmail from "./MagicLinkEmail";
 import { magicLinkSample } from "./magicLink.sample";
 import StockNotificationEmail from "./StockNotificationEmail";
 import { stockNotificationSample } from "./stockNotification.sample";
+import StockReservationEmail from "./StockReservationEmail";
+import { stockReservationSample } from "./stockReservation.sample";
 import EmployeeCreatedEmail from "./EmployeeCreatedEmail";
 import { employeeCreatedSample } from "./employeeCreated.sample";
 import { customerCreatedSample } from "./customerCreated.sample";
@@ -244,6 +246,47 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+  }),
+  defineTemplate({
+    slug: "stock-reservation",
+    name: "Stock Reservation",
+    description: "Sent when a customer's items have been reserved for pickup.",
+    component: StockReservationEmail,
+    sampleData: stockReservationSample,
+    helpers: ["currency"],
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.Order.CurrencyID,
+      }).format(s.Order.TotalAmountInTax)]:
+        `{{:~currency(Order.TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+    }),
+    loopVarReplacements: (s) => ({
+      "Order.Lines": {
+        [String(s.Order.Lines[0].TotalQuantityToShip)]:
+          `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Lines[0].TotalAmountInTax)]:
+          `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      },
+    }),
+    sequentialVarReplacements: (s) =>
+      (s.OrganizationUnit.UpcomingOpeningHours ?? []).flatMap(
+        (h, i) =>
+          [
+            [
+              h.OpeningTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].OpeningTime}}`,
+            ],
+            [
+              h.ClosingTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].ClosingTime}}`,
+            ],
+          ] as Array<[string, string]>,
+      ),
+    isNew: true,
   }),
   defineTemplate({
     slug: "employee-created",

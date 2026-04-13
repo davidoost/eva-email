@@ -66,7 +66,7 @@ export function TemplatesGrid() {
                   <div className="flex items-center justify-between">
                     <Card.Title>{template.name}</Card.Title>
                     {template.isNew && (
-                      <Chip color="accent" variant="soft">
+                      <Chip color="accent" variant="soft" size="sm">
                         New
                       </Chip>
                     )}
