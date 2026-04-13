@@ -396,6 +396,31 @@ export interface StockReservationDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface ShippedLine {
+  OrderLineID: string;
+  Description: string;
+  QuantityShipped: number;
+  ShipmentDate?: string;
+  TrackingCode?: string;
+  TrackingLink?: string;
+}
+
+export interface OrderReturnedDataModel {
+  TemplateName: string;
+  Order: StockReservationOrder;
+  ShippedLines: ShippedLine[];
+  User: User;
+  CommercialOrganizationUnit: StockNotificationOrganizationUnit;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export interface DiscountCouponOriginatingDiscount {
   Description?: string;
   MarketingDescription?: string;

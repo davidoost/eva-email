@@ -17,6 +17,8 @@ import StockNotificationEmail from "./StockNotificationEmail";
 import { stockNotificationSample } from "./stockNotification.sample";
 import StockReservationEmail from "./StockReservationEmail";
 import { stockReservationSample } from "./stockReservation.sample";
+import OrderReturnedEmail from "./OrderReturnedEmail";
+import { orderReturnedSample } from "./orderReturned.sample";
 import EmployeeCreatedEmail from "./EmployeeCreatedEmail";
 import { employeeCreatedSample } from "./employeeCreated.sample";
 import { customerCreatedSample } from "./customerCreated.sample";
@@ -286,6 +288,20 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "order-returned",
+    name: "Order Returned",
+    description: "Sent when a customer's return has been received.",
+    component: OrderReturnedEmail,
+    sampleData: orderReturnedSample,
+    loopVarReplacements: (s) => ({
+      ShippedLines: {
+        [String(s.ShippedLines[0].QuantityShipped)]: `{{>QuantityShipped}}`,
+        [s.ShippedLines[0].TrackingCode!]: `{{>TrackingCode}}`,
+      },
+    }),
     isNew: true,
   }),
   defineTemplate({
