@@ -40,7 +40,7 @@ const EmailLayout = ({
               <Img
                 src={
                   logoUrl ??
-                  "https://github.com/davidoost/constants/blob/main/logos/eva-logo.png?raw=true"
+                  "https://eva-email.vercel.app/_next/image?url=%2Feva-logo.png"
                 }
                 height="32"
                 alt="Logo"

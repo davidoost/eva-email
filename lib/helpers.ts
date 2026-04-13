@@ -32,6 +32,16 @@ export const helpers: Helper[] = [
   return require('moment-timezone').tz(value, timezone).locale(culture).format(format);
 }`,
   },
+  {
+    name: "dayOfWeek",
+    description:
+      "Returns the localized full day name for a given day-of-week number (1 = Monday … 7 = Sunday). Accepts a day number and a locale/language code.",
+    code: `function dayOfWeek(nr, language) {
+  var moment = require('moment');
+  moment.locale(language);
+  return moment().day(nr).format('dddd');
+}`,
+  },
 ];
 
 export function getHelpers(names: string[]): Helper[] {

@@ -44,6 +44,8 @@ interface TemplateEntry<T> {
   varReplacements?: (sampleData: T) => Record<string, string>;
   /** Per-loop replacements applied only within {{for}} body, keyed by array path */
   loopVarReplacements?: (sampleData: T) => Record<string, Record<string, string>>;
+  /** Sequential replacements applied before injectTemplateVars — each pair replaces only the next occurrence */
+  sequentialVarReplacements?: (sampleData: T) => Array<[string, string]>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -185,6 +187,11 @@ export const templates = [
     description: "Sent when a product a customer signed up for is back in stock.",
     component: StockNotificationEmail,
     sampleData: stockNotificationSample,
+    sequentialVarReplacements: (s) =>
+      (s.OrganizationUnit.UpcomingOpeningHours ?? []).flatMap((h, i) => [
+        [h.OpeningTime.slice(0, 5), `{{>OrganizationUnit.UpcomingOpeningHours[${i}].OpeningTime}}`],
+        [h.ClosingTime.slice(0, 5), `{{>OrganizationUnit.UpcomingOpeningHours[${i}].ClosingTime}}`],
+      ] as Array<[string, string]>),
   }),
   defineTemplate({
     slug: "employee-created",

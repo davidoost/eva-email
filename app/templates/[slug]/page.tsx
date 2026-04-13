@@ -5,7 +5,7 @@ import { createHighlighter } from "shiki";
 import EmailPreview from "@/components/email-preview";
 import { templates } from "@/emails";
 import { getHelpers, type HighlightedHelper } from "@/lib/helpers";
-import { injectTemplateVars, makeBoundedPattern } from "@/lib/template-vars";
+import { injectTemplateVars, makeBoundedPattern, applySequential } from "@/lib/template-vars";
 import { deriveEmailColors } from "@/lib/color";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
@@ -52,6 +52,9 @@ export default async function TemplatePage(props: Props) {
     for (const [from, to] of Object.entries(template.varReplacements(template.sampleData))) {
       templateHtml = templateHtml.replace(makeBoundedPattern(from), to);
     }
+  }
+  if (template.sequentialVarReplacements) {
+    templateHtml = applySequential(templateHtml, template.sequentialVarReplacements(template.sampleData));
   }
   templateHtml = injectTemplateVars(
     templateHtml,

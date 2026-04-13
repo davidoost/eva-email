@@ -20,8 +20,7 @@ import { useIsMobile } from "@/lib/hooks/use-is-mobile";
 const COOKIE_KEY = "eva-brand-settings";
 
 const DEFAULTS = {
-  logoUrl:
-    "https://github.com/davidoost/constants/blob/main/logos/eva-logo.png?raw=true",
+  logoUrl: "https://eva-email.vercel.app/_next/image?url=%2Feva-logo.png",
   brandName: "EVA",
   accentColor: "#0485F7",
 };

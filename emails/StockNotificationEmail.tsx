@@ -23,7 +23,7 @@ export default function StockNotificationEmail({
   const { OrganizationUnit, ProductID, ProductProperties } = data;
 
   const productName = ProductProperties?.name ?? ProductID;
-  const openDays = OrganizationUnit.UpcomingOpeningHours?.filter((h) => !h.IsClosed) ?? [];
+  const upcomingHours = OrganizationUnit.UpcomingOpeningHours ?? [];
 
   return (
     <EmailLayout
@@ -41,13 +41,13 @@ export default function StockNotificationEmail({
         Visit us at {OrganizationUnit.StreetAndHouseNumber ?? OrganizationUnit.Address1}{OrganizationUnit.ZipCodeAndCity ? `, ${OrganizationUnit.ZipCodeAndCity}` : ""} to pick it up.
       </Text>
 
-      <EvaIf expr="OrganizationUnit.UpcomingOpeningHours != null" show={openDays.length > 0}>
+      <EvaIf expr="OrganizationUnit.UpcomingOpeningHours != null" show={upcomingHours.length > 0}>
         <Hr className="border-gray-100 my-6" />
         <Text className="text-xs font-semibold uppercase tracking-widest text-gray-400 m-0 mb-3">
           Opening hours this week
         </Text>
         <Section>
-          {openDays.map((h, i) => (
+          {upcomingHours.map((h, i) => (
             <Row
               key={h.Date}
               className="rounded-md"

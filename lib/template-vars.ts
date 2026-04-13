@@ -48,4 +48,17 @@ export function injectTemplateVars(
   return result;
 }
 
+/**
+ * Apply replacements sequentially, each replacing only the first remaining
+ * occurrence. Use this when the same display value (e.g. "09:00") appears
+ * multiple times but must map to a different variable at each position.
+ */
+export function applySequential(html: string, pairs: Array<[string, string]>): string {
+  let result = html;
+  for (const [from, to] of pairs) {
+    result = result.replace(from, to);
+  }
+  return result;
+}
+
 export { makeBoundedPattern };
