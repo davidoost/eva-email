@@ -27,6 +27,10 @@ import CaseUpdatedEmail from "./CaseUpdatedEmail";
 import { caseUpdatedSample } from "./caseUpdated.sample";
 import CaseInteractionCreatedEmail from "./CaseInteractionCreatedEmail";
 import { caseInteractionCreatedSample } from "./caseInteractionCreated.sample";
+import PickupReminderEmail from "./PickupReminderEmail";
+import { pickupReminderSample } from "./pickupReminder.sample";
+import PickupOrderPlacedConfirmationEmail from "./PickupOrderPlacedConfirmationEmail";
+import { pickupOrderPlacedConfirmationSample } from "./pickupOrderPlacedConfirmation.sample";
 import EmployeeCreatedEmail from "./EmployeeCreatedEmail";
 import { employeeCreatedSample } from "./employeeCreated.sample";
 import { customerCreatedSample } from "./customerCreated.sample";
@@ -343,6 +347,96 @@ export const templates = [
         [s.ShippedLines[0].TrackingCode!]: `{{>TrackingCode}}`,
       },
     }),
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "pickup-order-placed-confirmation",
+    name: "Pickup Order Placed Confirmation",
+    description: "Sent when a customer places a click-and-collect order.",
+    component: PickupOrderPlacedConfirmationEmail,
+    sampleData: pickupOrderPlacedConfirmationSample,
+    helpers: ["currency"],
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.Order.CurrencyID,
+      }).format(s.Order.TotalAmountInTax)]:
+        `{{:~currency(Order.TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+    }),
+    loopVarReplacements: (s) => ({
+      "Order.Lines": {
+        [String(s.Order.Lines[0].TotalQuantityToShip)]:
+          `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Lines[0].TotalAmountInTax)]:
+          `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      },
+      "Order.Payments": {
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Payments![0].PaidAmount!)]:
+          `{{:~currency(PaidAmount, Order.CurrencyID, LanguageID)}}`,
+      },
+    }),
+    sequentialVarReplacements: (s) =>
+      (s.OrganizationUnit.UpcomingOpeningHours ?? []).flatMap(
+        (h, i) =>
+          [
+            [
+              h.OpeningTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].OpeningTime}}`,
+            ],
+            [
+              h.ClosingTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].ClosingTime}}`,
+            ],
+          ] as Array<[string, string]>,
+      ),
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "pickup-reminder",
+    name: "Pickup Reminder",
+    description: "Sent to remind a customer their reserved items are waiting for pickup.",
+    component: PickupReminderEmail,
+    sampleData: pickupReminderSample,
+    helpers: ["currency"],
+    varReplacements: (s) => ({
+      [new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: s.Order.CurrencyID,
+      }).format(s.Order.TotalAmountInTax)]:
+        `{{:~currency(Order.TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      [String(s.Days)]: `{{>Days}}`,
+    }),
+    loopVarReplacements: (s) => ({
+      "Order.Lines": {
+        [String(s.Order.Lines[0].TotalQuantityToShip)]:
+          `{{>TotalQuantityToShip}}`,
+        [new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: s.Order.CurrencyID,
+        }).format(s.Order.Lines[0].TotalAmountInTax)]:
+          `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
+      },
+    }),
+    sequentialVarReplacements: (s) =>
+      (s.OrganizationUnit.UpcomingOpeningHours ?? []).flatMap(
+        (h, i) =>
+          [
+            [
+              h.OpeningTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].OpeningTime}}`,
+            ],
+            [
+              h.ClosingTime.slice(0, 5),
+              `{{>OrganizationUnit.UpcomingOpeningHours[${i}].ClosingTime}}`,
+            ],
+          ] as Array<[string, string]>,
+      ),
     isNew: true,
   }),
   defineTemplate({

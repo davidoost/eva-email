@@ -92,12 +92,15 @@ export default function EmailPreview({
       <Card className="flex-1 min-h-0 p-0 gap-0 border overflow-hidden" style={{ backgroundColor: bodyBg }}>
         <Card.Content className="overflow-auto h-full p-0">
           {tab === "preview" ? (
-            <iframe
-              srcDoc={html}
-              title="Email preview"
-              className="w-full h-full border-0"
-              sandbox="allow-same-origin"
-            />
+            <div className="h-full overflow-auto flex justify-center">
+              <iframe
+                srcDoc={html}
+                title="Email preview"
+                className="border-0 w-full"
+                style={{ minWidth: "min(600px, 100%)", maxWidth: "600px", flexShrink: 0, minHeight: "100%" }}
+                sandbox="allow-same-origin"
+              />
+            </div>
           ) : (
             <>
               <div

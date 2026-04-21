@@ -396,6 +396,57 @@ export interface StockReservationDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface PickupOrderPlacedConfirmationOrderPayment {
+  CurrencyID?: string;
+  PaidAmount?: number;
+  PaymentDate?: string;
+  Description?: string;
+}
+
+export interface PickupOrderPlacedConfirmationOrder {
+  ID: string;
+  BackendID?: string;
+  CurrencyID: string;
+  TotalAmountInTax: number;
+  ShippingAddress?: PostalAddress;
+  BillingAddress?: PostalAddress;
+  Payments?: PickupOrderPlacedConfirmationOrderPayment[];
+  Lines: StockReservationOrderLine[];
+}
+
+export interface PickupOrderPlacedConfirmationDataModel {
+  TemplateName: string;
+  User: User;
+  Order: PickupOrderPlacedConfirmationOrder;
+  OrganizationUnit: StockNotificationOrganizationUnit;
+  Data?: Record<string, unknown> | null;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
+export interface PickupReminderDataModel {
+  TemplateName: string;
+  User: User;
+  Order: StockReservationOrder;
+  OrganizationUnit: StockNotificationOrganizationUnit;
+  VerificationCode?: string;
+  Days: number;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export interface CaseInteractionCreatedDataModel extends CaseCreatedDataModel {
   InteractionText?: string;
   User: User;

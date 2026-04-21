@@ -28,7 +28,7 @@ const EmailLayout = ({
   debug,
 }: EmailLayoutProps) => {
   return (
-    <Html>
+    <Html style={{ fontSize: "16px" }}>
       <Head />
       <Preview>{previewText}</Preview>
       <Tailwind>
@@ -61,7 +61,10 @@ const EmailLayout = ({
               </details>
             )}
             <Text className="text-xs text-black/60 text-center">
-              Powered by <Link href="https://newblack.io" className="text-black/60">EVA</Link>
+              Powered by{" "}
+              <Link href="https://newblack.io" className="text-black/60">
+                EVA
+              </Link>
             </Text>
           </Container>
         </Body>

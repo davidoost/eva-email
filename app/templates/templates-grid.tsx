@@ -64,7 +64,9 @@ export function TemplatesGrid() {
               <Card className="ring-0 hover:ring-2 ring-accent">
                 <Card.Header>
                   <div className="flex items-center justify-between">
-                    <Card.Title>{template.name}</Card.Title>
+                    <Card.Title className="line-clamp-1">
+                      {template.name}
+                    </Card.Title>
                     {template.isNew && (
                       <Chip color="accent" variant="soft" size="sm">
                         New
