@@ -64,6 +64,8 @@ interface TemplateEntry<T> {
   ) => Record<string, Record<string, string>>;
   /** Sequential replacements applied before injectTemplateVars — each pair replaces only the next occurrence */
   sequentialVarReplacements?: (sampleData: T) => Array<[string, string]>;
+  /** Subject line — runs through varReplacements + injectTemplateVars, prepended as {#subject}...{#/subject} */
+  subject?: (sampleData: T, brandName?: string) => string;
   isNew?: boolean;
 }
 
@@ -91,6 +93,7 @@ export const templates = [
         [String(s.Withdrawals[0].Points)]: `{{>Points}}`,
       },
     }),
+    subject: (s, b = "EVA") => `Your ${s.LoyaltyProgram.Name ?? b} points have been updated`,
   }),
   defineTemplate({
     slug: "discount-coupon",
@@ -98,6 +101,7 @@ export const templates = [
     description: "Sent when a customer earns a discount coupon.",
     component: DiscountCouponEmail,
     sampleData: discountCouponSample,
+    subject: (_, b = "EVA") => `Your exclusive coupon code from ${b}`,
   }),
   defineTemplate({
     slug: "order-confirmation",
@@ -134,6 +138,7 @@ export const templates = [
           `{{:~currency(TotalAmountInTax, Order.CurrencyID, LanguageID)}}`,
       },
     }),
+    subject: (s) => `Order #${s.Order.ID} confirmed — thanks, ${s.User.FirstName}!`,
   }),
   defineTemplate({
     slug: "customer-created",
@@ -141,6 +146,7 @@ export const templates = [
     description: "Sent when a new customer account is created.",
     component: CustomerCreatedEmail,
     sampleData: customerCreatedSample,
+    subject: (s) => `Welcome, ${s.User.FirstName}!`,
   }),
   defineTemplate({
     slug: "password-reset-requested",
@@ -158,6 +164,7 @@ export const templates = [
         minute: "2-digit",
       })]: `{{:~date(ExpiresAt, "DD MMMM YYYY HH:mm", LanguageID, TimeZone)}}`,
     }),
+    subject: (_, b = "EVA") => `Reset your ${b} password`,
   }),
   defineTemplate({
     slug: "password-reset-completed",
@@ -165,6 +172,7 @@ export const templates = [
     description: "Sent when a customer's password has been successfully reset.",
     component: PasswordResetCompletedEmail,
     sampleData: passwordResetCompletedSample,
+    subject: (_, b = "EVA") => `Your ${b} password has been reset`,
   }),
   defineTemplate({
     slug: "digital-gift-card-message",
@@ -185,6 +193,7 @@ export const templates = [
       })]:
         `{{:~date(Details.DateOfExpiration, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
+    subject: (s) => `You've received a gift card from ${s.Data.From ?? ""}`,
   }),
   defineTemplate({
     slug: "digital-gift-card-sender-message",
@@ -206,6 +215,7 @@ export const templates = [
       })]:
         `{{:~date(Data.DeliverySchedule, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
+    subject: (s) => `Your gift card to ${s.Data.To ?? ""} is on its way`,
   }),
   defineTemplate({
     slug: "evapay",
@@ -231,6 +241,7 @@ export const templates = [
       },
     }),
     helpers: ["currency"],
+    subject: (s) => `Your payment request for order #${s.OrderID}`,
   }),
   defineTemplate({
     slug: "magic-link",
@@ -238,6 +249,7 @@ export const templates = [
     description: "Sent when a user requests a passwordless sign-in link.",
     component: MagicLinkEmail,
     sampleData: magicLinkSample,
+    subject: (_, b = "EVA") => `Your sign-in link for ${b}`,
   }),
   defineTemplate({
     slug: "stock-notification",
@@ -260,6 +272,7 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+    subject: (s) => `${s.ProductProperties?.["display_value"] ?? s.ProductID} is back in stock at ${s.OrganizationUnit.Name}`,
   }),
   defineTemplate({
     slug: "stock-reservation",
@@ -300,6 +313,7 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+    subject: (s) => `Your reservation at ${s.OrganizationUnit.Name} is confirmed, ${s.User.FirstName}!`,
     isNew: true,
   }),
   defineTemplate({
@@ -308,6 +322,7 @@ export const templates = [
     description: "Sent when a reply is added to a customer support case.",
     component: CaseInteractionCreatedEmail,
     sampleData: caseInteractionCreatedSample,
+    subject: (s) => `New message on your case: ${s.Title}`,
     isNew: true,
   }),
   defineTemplate({
@@ -317,6 +332,7 @@ export const templates = [
       "Sent when a customer support case status or priority changes.",
     component: CaseUpdatedEmail,
     sampleData: caseUpdatedSample,
+    subject: (s) => `Update on your case: ${s.Title}`,
     isNew: true,
   }),
   defineTemplate({
@@ -325,6 +341,7 @@ export const templates = [
     description: "Sent when a customer support case is resolved and closed.",
     component: CaseClosedEmail,
     sampleData: caseClosedSample,
+    subject: (s) => `Your support case has been closed, ${s.Customer.FirstName}.`,
     isNew: true,
   }),
   defineTemplate({
@@ -333,6 +350,7 @@ export const templates = [
     description: "Sent when a customer support case is opened.",
     component: CaseCreatedEmail,
     sampleData: caseCreatedSample,
+    subject: (s) => `Your support case has been created, ${s.Customer.FirstName}.`,
     isNew: true,
   }),
   defineTemplate({
@@ -347,6 +365,7 @@ export const templates = [
         [s.ShippedLines[0].TrackingCode!]: `{{>TrackingCode}}`,
       },
     }),
+    subject: (s) => `Your return for order #${s.Order.ID} has been received, ${s.User.FirstName}.`,
     isNew: true,
   }),
   defineTemplate({
@@ -395,6 +414,7 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+    subject: (s) => `Order #${s.Order.ID} confirmed — ready for pickup at ${s.OrganizationUnit.Name}`,
     isNew: true,
   }),
   defineTemplate({
@@ -437,6 +457,7 @@ export const templates = [
             ],
           ] as Array<[string, string]>,
       ),
+    subject: (s) => `Reminder: your reservation at ${s.OrganizationUnit.Name} expires in ${s.Days} days`,
     isNew: true,
   }),
   defineTemplate({
@@ -453,6 +474,7 @@ export const templates = [
         day: "numeric",
       })]: `{{:~date(ResetExpiresAt, "DD MMMM YYYY", LanguageID, TimeZone)}}`,
     }),
+    subject: (s, b = "EVA") => `Welcome to ${b}, ${s.User.FirstName}!`,
   }),
 ];
 

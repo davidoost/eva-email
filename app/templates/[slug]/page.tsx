@@ -94,6 +94,17 @@ export default async function TemplatePage(props: Props) {
     }
   );
 
+  if (template.subject) {
+    let subjectText = template.subject(template.sampleData, resolvedBrandName ?? "EVA");
+    if (template.varReplacements) {
+      for (const [from, to] of Object.entries(template.varReplacements(template.sampleData))) {
+        subjectText = subjectText.replace(makeBoundedPattern(from), to);
+      }
+    }
+    subjectText = injectTemplateVars(subjectText, template.sampleData as unknown as Record<string, unknown>);
+    templateHtml = `{#subject}${subjectText}{#/subject}\n${templateHtml}`;
+  }
+
   const highlighter = await createHighlighter({
     themes: ["github-light", "github-dark"],
     langs: ["html", "javascript"],
