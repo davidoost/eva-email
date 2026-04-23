@@ -396,6 +396,30 @@ export interface StockReservationDataModel {
   CurrentOrganizationUnit: OrganizationUnit;
 }
 
+export interface OrderTracking {
+  Code?: string;
+  Link?: string;
+}
+
+export interface OrderShippedConfirmationDataModel {
+  TemplateName: string;
+  Order: StockReservationOrder;
+  ShippedLines: ShippedLine[];
+  UnshippedLines?: StockReservationOrderLine[] | null;
+  User: User;
+  Tracking?: OrderTracking;
+  CommercialOrganizationUnit?: StockNotificationOrganizationUnit;
+  Data?: Record<string, unknown> | null;
+  ApplicationCode?: string;
+  AssetsUrl: string;
+  LanguageID: string;
+  CountryID: string;
+  TimeZone: string;
+  IsTestEnvironment: boolean;
+  RunningOnWatchtower: boolean;
+  CurrentOrganizationUnit: OrganizationUnit;
+}
+
 export interface PickupOrderPlacedConfirmationOrderPayment {
   CurrencyID?: string;
   PaidAmount?: number;

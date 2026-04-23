@@ -27,6 +27,8 @@ import CaseUpdatedEmail from "./CaseUpdatedEmail";
 import { caseUpdatedSample } from "./caseUpdated.sample";
 import CaseInteractionCreatedEmail from "./CaseInteractionCreatedEmail";
 import { caseInteractionCreatedSample } from "./caseInteractionCreated.sample";
+import OrderShippedConfirmationEmail from "./OrderShippedConfirmationEmail";
+import { orderShippedConfirmationSample } from "./orderShippedConfirmation.sample";
 import PickupReminderEmail from "./PickupReminderEmail";
 import { pickupReminderSample } from "./pickupReminder.sample";
 import PickupOrderPlacedConfirmationEmail from "./PickupOrderPlacedConfirmationEmail";
@@ -366,6 +368,23 @@ export const templates = [
       },
     }),
     subject: (s) => `Your return for order #${s.Order.ID} has been received, ${s.User.FirstName}.`,
+    isNew: true,
+  }),
+  defineTemplate({
+    slug: "order-shipped-confirmation",
+    name: "Order Shipped Confirmation",
+    description: "Sent when items from a customer's order have been shipped.",
+    component: OrderShippedConfirmationEmail,
+    sampleData: orderShippedConfirmationSample,
+    subject: (s) => `Your order #${s.Order.ID} is on its way, ${s.User.FirstName}!`,
+    loopVarReplacements: (s) => ({
+      ShippedLines: {
+        [String(s.ShippedLines[0].QuantityShipped)]: `{{>QuantityShipped}}`,
+      },
+      UnshippedLines: {
+        [String(s.UnshippedLines![0].TotalQuantityToShip)]: `{{>TotalQuantityToShip}}`,
+      },
+    }),
     isNew: true,
   }),
   defineTemplate({
